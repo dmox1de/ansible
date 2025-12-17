@@ -1,0 +1,16 @@
+---
+- name: Установка Docker
+  import_tasks: subtasks/install_docker.yml
+  tags: [install, setup]
+
+- name: Клонирование репозиториев
+  import_tasks: subtasks/clone_repos.yml
+  tags: [deploy, update]
+
+- name: Запуск микросервисов
+  import_tasks: subtasks/start_services.yml
+  tags: [start]
+
+- name: Остановка микросервисов
+  import_tasks: subtasks/stop_services.yml
+  tags: [stop]

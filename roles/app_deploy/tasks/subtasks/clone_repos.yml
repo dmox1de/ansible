@@ -1,0 +1,20 @@
+---
+- name: Создание директории приложения
+  file:
+    path: "{{ app_root }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+
+- name: Клонируем все репозитории
+  git:
+    repo: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    version: main
+    clone: yes
+    update: yes
+    force: yes
+  loop: "{{ repos }}"
+  become: yes
+  become_user: "{{ target_user }}"

@@ -1,0 +1,48 @@
+---
+- name: Обновление кэша пакетов и установка зависимостей
+  apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+      - python3-pip
+      - git
+    state: present
+    update_cache: yes
+  when: ansible_facts.distribution == 'Ubuntu'
+
+- name: Добавление официального GPG ключа Docker
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  when: ansible_facts.distribution == 'Ubuntu'
+
+- name: Добавление репозитория Docker в источники apt
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+    state: present
+  when: ansible_facts.distribution == 'Ubuntu'
+
+- name: Установка Docker Engine и плагинов
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+  when: ansible_facts.distribution == 'Ubuntu'
+
+- name: Запуск и включение автозагрузки службы Docker (Systemd)
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  when: ansible_facts['service_mgr'] == 'systemd'
+
+- name: Установка библиотеки Python для работы модулей Ansible Docker
+  pip:
+    name:
+      - docker
+    extra_args: "--break-system-packages"

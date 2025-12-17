@@ -1,0 +1,13 @@
+target_user: "oxide"
+app_root: "/home/{{ target_user }}/app"
+docker_compose_dir: "{{ app_root }}/DevOps"
+
+repos:
+  - url: "https://github.com/dmox1de/frontend.git"
+    dest: "{{ app_root }}/frontend"
+    
+  - url: "https://github.com/dmox1de/backend.git"
+    dest: "{{ app_root }}/backend"
+    
+  - url: "https://github.com/dmox1de/DevOps.git"
+    dest: "{{ docker_compose_dir }}"
