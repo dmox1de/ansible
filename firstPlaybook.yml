@@ -1,6 +1,6 @@
 ---
 - name: Развёртывание приложения
-  hosts: stend1
+  hosts: stend2
   become: yes
   
   roles:
